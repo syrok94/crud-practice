@@ -33,12 +33,17 @@ function Content() {
     //     }
  
 
-    const [val, setVal] = useState("");
-    const [valEmail, setEmailVal] = useState("");
+    // const [val, setVal] = useState("");
+    // const [valEmail, setEmailVal] = useState("");
 
 
-    const [names, setName] = useState([]);
-    const [emails, setEmail] = useState([]);
+    // const [names, setName] = useState([]);
+    // const [emails, setEmail] = useState([]);
+
+    const [contact ,setContact] = useState({
+        name : "",
+        email : ""
+    })
 
     function inputHandler(value) {
         const inputVal = value.target.value;
