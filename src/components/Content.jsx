@@ -1,83 +1,56 @@
 import React, { useState } from "react";
 
+var idx=0;
+
 function Content() {
 
-    // const items=[
-    //     {
-    //         name:"rajan",
-    //         age:"18"
-    //     },
-    //     {
-    //         name:"kartik",
-    //         age:"18"
-    //     }
-    // ]
+    
 
-    // function card(props){
-    //     return(
-    //         <div>
-    //             <h1>{props.name}</h1>
-    //             <h1>{props.age}</h1>                
-    //         </div>
-    //     );
-    // }
+    const [contact, setContact] = useState([]);
 
-
-    // const [name,setName]=useState([]);
-    // const [head,setHead]=useState(name);
-
-    //     function inputHandler(e){
-    //        const entry=e.target.value
-    //         setName(entry);
-    //        // console.log(e.target.value);
-    //     }
- 
-
-    // const [val, setVal] = useState("");
-    // const [valEmail, setEmailVal] = useState("");
-
-
-    // const [names, setName] = useState([]);
-    // const [emails, setEmail] = useState([]);
-
-    const [contact ,setContact] = useState({
-        name : "",
-        email : ""
-    })
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
 
     function inputHandler(value) {
         const inputVal = value.target.value;
 
-        setVal(inputVal);
-      
+        setName(inputVal);
+
 
     }
 
     function emailHandler(value) {
         const inpEmail = value.target.value;
 
-        setEmailVal(inpEmail);
+        setEmail(inpEmail);
     }
 
-    function submitHandler(value) {
-        setName((prevName) => {
-            return ([...prevName, val])
-        })
-     
-        setEmail((prevEmail) => {
-            return ([...prevEmail, valEmail]);
-        })
-        
+    
 
-        setVal("");
-        setEmailVal("");
+    function submitHandler(value) {
+      
+        // const idx =Math.floor((Math.random() * 100) + 1);
+        // const  idx=  Math.floor((Math.random() * 10) + 1);
+        idx++;
+        const newItem = { id: idx, name: name, email: email }
+        setContact(prev => [...prev, newItem])
+
+        setName("");
+        setEmail("");
 
         value.preventDefault();
 
 
 
     }
-
+    
+    const deleteHandler = (id)=> {
+        // console.log(value.target.value)
+        const it = contact.filter( fun =>fun.id !==id.id);
+        setContact(it);
+        console.log(it);
+       
+    }
 
     return (
         <>
@@ -85,60 +58,82 @@ function Content() {
 
                 <label>Name</label>
                 <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    onChange={inputHandler} value={val}
+                    onChange={inputHandler} value={name}
                     type="text"
                 />
                 <label>Email</label>
                 <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     type="email"
                     onChange={emailHandler}
-                    value={valEmail}
+                    value={email}
                 />
 
-                <button onClick={submitHandler} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button onClick={submitHandler}
+                
+                
+                
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Submit
                 </button >
 
             </form>
 
-            <p>
 
 
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th className="px-6 py-3">sr no.</th>
-                            <th className="px-6 py-3">name</th>
-                            <th className="px-6 py-3">email</th>
-                        </tr>
 
-                    </thead>
-                    <tbody>
-                        <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {names.length}
-                            </td>
-                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {names.map((item) => {
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                    <th className="px-6 py-3">srno</th>
+                        <th className="px-6 py-3">name</th>
+                        <th className="px-6 py-3">email</th>
+                        <th className="px-6 py-3">actions</th>
+                    </tr>
 
-                                    return <h1>{item} </h1>
-                                })}
-                            </td>
+                </thead>
+                <tbody>
 
-                            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {
+                        contact.map((item) => {
+                            return (<>
+                                <tr key={item.id}  className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {item.id}
+                                    </td>
+                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {item.name}
+                                    </td>
+                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {item.email}
+                                    </td>
+                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                            update
+                                        </button >
+                                    </td>
+                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" >
+                                        <button 
+                                            value={item}
+                                            onClick={() => deleteHandler(item)}
+                                            
+                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                            delete
+                                        </button >
+                                    </td>
 
-                                {emails.map((item) => {
-
-                                    return <h1>{item} </h1>
-                                })}
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
+                                </tr>
+                            </>)
 
 
-            </p>
+                        })
+
+                    }
+
+                </tbody>
+            </table>
+
+
+
 
 
         </>
