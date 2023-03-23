@@ -107,7 +107,9 @@ function Content() {
                                         {item.email}
                                     </td>
                                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                        <button 
+                                            onClick={()=> updateHandler(item)}
+                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                                             update
                                         </button >
                                     </td>
