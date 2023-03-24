@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+
 var idx=0;
 
 function Content() {
@@ -7,9 +8,10 @@ function Content() {
     
 
     const [contact, setContact] = useState([]);
-
+    const[itemUpdatedId, setItemUpdatedId] = useState(null);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [isUpdate, setIsUpdate] = useState(false);
 
     function inputHandler(value) {
         const inputVal = value.target.value;
@@ -43,6 +45,34 @@ function Content() {
 
 
     }
+const updateSubmit = (e)=>{
+    e.preventDefault();
+     setContact(prev=>{
+        prev.forEach(item=>{
+            if(item.id ===itemUpdatedId){
+                item.name = name;
+                item.email = email;
+            }
+        })
+        return prev;
+     }
+     )
+     setIsUpdate(false);
+     setEmail("");
+     setName("");
+  
+}
+    const updateHandler = (item)=>{
+        
+        console.log("clicked");
+        setIsUpdate(true);
+        setName(item.name);
+        setEmail(item.email);
+        setItemUpdatedId(item.id);
+     
+    
+
+    }
     
     const deleteHandler = (id)=> {
         // console.log(value.target.value)
@@ -54,7 +84,7 @@ function Content() {
 
     return (
         <>
-            <form className="Form">
+            
 
                 <label>Name</label>
                 <input className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -68,15 +98,17 @@ function Content() {
                     value={email}
                 />
 
-                <button onClick={submitHandler}
+               {isUpdate ?  <button onClick={updateSubmit}
                 
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Update
+                </button >:  <button onClick={submitHandler}
                 
-                
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Submit
-                </button >
+                </button >}
 
-            </form>
+        
 
 
 
@@ -94,7 +126,7 @@ function Content() {
                 <tbody>
 
                     {
-                        contact.map((item) => {
+                         contact.map((item) => {
                             return (<>
                                 <tr key={item.id}  className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -109,7 +141,7 @@ function Content() {
                                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <button 
                                             onClick={()=> updateHandler(item)}
-                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                                             update
                                         </button >
                                     </td>
@@ -118,7 +150,7 @@ function Content() {
                                             value={item}
                                             onClick={() => deleteHandler(item)}
                                             
-                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                                             delete
                                         </button >
                                     </td>
